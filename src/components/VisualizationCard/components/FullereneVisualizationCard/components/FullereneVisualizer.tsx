@@ -4,9 +4,10 @@ import type { Fullerene } from "@/types/Fullerene";
 
 interface FullereneVisualizerProps {
     fullerene: Fullerene;
+    layout: string;
 }
 
-export function FullereneVisualizer({ fullerene }: FullereneVisualizerProps) {
+export function FullereneVisualizer({ fullerene, layout }: FullereneVisualizerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const cyRef = useRef<cytoscape.Core | null>(null);
 
@@ -78,9 +79,9 @@ export function FullereneVisualizer({ fullerene }: FullereneVisualizerProps) {
                 },
             ],
             layout: {
-                name: "circle",
-                animate: true,
-                animationDuration: 500,
+                name: layout,
+                // animate: true,
+                // animationDuration: 500,
             },
             userZoomingEnabled: true,
             userPanningEnabled: true,
@@ -102,7 +103,7 @@ export function FullereneVisualizer({ fullerene }: FullereneVisualizerProps) {
                 cyRef.current.destroy();
             }
         };
-    }, [fullerene]);
+    }, [fullerene, layout]);
 
     return (
         <div className="w-full h-full border rounded-lg bg-white">

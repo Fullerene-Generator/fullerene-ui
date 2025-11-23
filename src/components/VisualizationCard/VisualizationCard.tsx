@@ -2,7 +2,7 @@ import type { FullereneListInfo } from "@/types/FullereneListInfo";
 import { FullereneList } from "./components/FullereneList/FullereneList";
 import { NoFullerenesGeneratedCard } from "./components/NoFullerenesGeneratedCard";
 import { NoFullerenesSelectedCard } from "./components/NoFullerenesSelectedCard";
-import { FullereneVisualizer } from "./components/FullereneVisualizer";
+import { FullereneVisualizationCard } from "./components/FullereneVisualizationCard/FullereneVisualizationCard";
 import { useState } from "react";
 import type { Fullerene } from "@/types/Fullerene";
 
@@ -23,7 +23,7 @@ export function VisualizationCard({ fullerenesListInfo }: VisualizationCardProps
                     />
                 </div>
                 <div className="col-span-2">
-                    {fullerene == null ? <NoFullerenesSelectedCard /> : <FullereneVisualizer fullerene={fullerene} />}
+                    {fullerene == null ? <NoFullerenesSelectedCard /> : <FullereneVisualizationCard selectedFullerene={fullerene} />}
                 </div>
             </div>) :
             < NoFullerenesGeneratedCard />

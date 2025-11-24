@@ -1,15 +1,43 @@
 import { useEffect, useRef } from "react";
 import cytoscape from "cytoscape";
-import type { Fullerene } from "@/types/Fullerene";
+import type { FullereneStructure } from "@/features/fullerenes/types/FullereneStructure";
+import { useCallback } from "react";
 
 interface FullereneVisualizerProps {
-    fullerene: Fullerene;
+    fullerene: FullereneStructure;
     layout: string;
 }
 
-export function FullereneVisualizer({ fullerene, layout }: FullereneVisualizerProps) {
+export function FullereneGraphRenderer({ fullerene, layout }: FullereneVisualizerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const cyRef = useRef<cytoscape.Core | null>(null);
+
+    const dynamicStyleHandler = useCallback(() => {
+        if (cyRef.current) {
+            console.log("Zoom level:", cyRef.current.zoom());
+            cyRef.current.style()
+                .selector('node')
+                .style({
+                    'width': `${10 / cyRef.current.zoom()}px`,
+                    'height': `${10 / cyRef.current.zoom()}px`,
+                    'opacity': 1,
+                })
+                .selector('edge')
+                .style({
+                    'width': `${1 / cyRef.current.zoom()}px`,
+                })
+                .update();
+        }
+    }, []);
+
+    const getLayoutOptions = (layoutName: string) => {
+        if (layoutName === "preset") {
+            return { name: "preset", fit: true };
+        }
+        else {
+            return { name: layoutName };
+        }
+    }
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -17,19 +45,23 @@ export function FullereneVisualizer({ fullerene, layout }: FullereneVisualizerPr
         if (cyRef.current) {
             cyRef.current.destroy();
         }
-
+        let i = -1;
         const elements = [
-            ...fullerene.nodes.map((node) => ({
-                data: {
-                    id: node.id
-                },
-            })),
+            ...fullerene.coords.map((coords) => {
+                i++;
+                return ({
+                    data: {
+                        id: i.toString(),
+                    },
+                    position: { x: coords[0] * 100, y: coords[1] * 100 }
+                })
+            }),
 
             ...fullerene.edges.map((edge, index) => ({
                 data: {
                     id: `e${index}`,
-                    source: edge.source,
-                    target: edge.target,
+                    source: edge[0],
+                    target: edge[1],
                 },
             })),
         ];
@@ -42,14 +74,12 @@ export function FullereneVisualizer({ fullerene, layout }: FullereneVisualizerPr
                     selector: "node",
                     style: {
                         "background-color": "#3b82f6",
-                        label: "data(label)",
                         color: "#fff",
                         "text-valign": "center",
                         "text-halign": "center",
                         "font-size": "10px",
-                        width: "30px",
-                        height: "30px",
-                        "border-width": 2,
+                        width: "10px",
+                        height: "10px",
                         "border-color": "#1e40af",
                     },
                 },
@@ -64,7 +94,7 @@ export function FullereneVisualizer({ fullerene, layout }: FullereneVisualizerPr
                 {
                     selector: "edge",
                     style: {
-                        width: 2,
+                        width: 0.01,
                         "line-color": "#94a3b8",
                         "target-arrow-color": "#94a3b8",
                         "curve-style": "bezier",
@@ -78,17 +108,17 @@ export function FullereneVisualizer({ fullerene, layout }: FullereneVisualizerPr
                     },
                 },
             ],
-            layout: {
-                name: layout,
-                // animate: true,
-                // animationDuration: 500,
-            },
+            layout: getLayoutOptions(layout),
             userZoomingEnabled: true,
             userPanningEnabled: true,
             boxSelectionEnabled: false,
         });
 
         cyRef.current = cy;
+
+        dynamicStyleHandler();
+
+        cy.on("zoom", dynamicStyleHandler);
 
         cy.on("tap", "node", (evt) => {
             const node = evt.target;

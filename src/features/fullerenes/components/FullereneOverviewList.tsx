@@ -1,17 +1,17 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { generateListOfFullerenes } from "@/utils/mockClient";
-import type { FullereneListInfo } from "@/types/FullereneListInfo";
+import { generateListOfFullerenes } from "@/services/mockClient";
+import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCategory";
 
 
-interface FullereneGenerationOverviewListProps {
-    fullerenesListInfo: FullereneListInfo[];
+interface FullereneOverviewListProps {
+    fullerenesListInfo: FullereneCategory[];
     setLoading: Function;
     setActiveItem: Function;
     setData: Function;
 }
 
-export function FullereneGenerationOverviewList({ fullerenesListInfo, setLoading, setActiveItem, setData }: FullereneGenerationOverviewListProps) {
+export function FullereneOverviewList({ fullerenesListInfo, setLoading, setActiveItem, setData }: FullereneOverviewListProps) {
 
     const handleListElementClick = async (value: number) => {
 

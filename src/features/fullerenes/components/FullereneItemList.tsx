@@ -1,17 +1,17 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import type { FullereneListElementInfo } from "@/types/FullereneListElementInfo";
-import { getFullereneForVisualization } from "@/utils/mockClient";
+import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
+import { getFullereneForVisualization } from "@/services/mockClient";
 
 interface DetailedFullereneListProps {
-    fullerenesListElementInfo: FullereneListElementInfo[] | null;
+    fullerenesListElementInfo: FullereneItem[] | null;
     selectFullerene: Function;
 }
 
-export function DetailedFullereneList({ fullerenesListElementInfo, selectFullerene }: DetailedFullereneListProps) {
+export function FullereneItemList({ fullerenesListElementInfo, selectFullerene }: DetailedFullereneListProps) {
 
-    const setSelectedFullerene = async (id: number) => {
-        const graph = await getFullereneForVisualization(id);
+    const setSelectedFullerene = async (id: number, n: number) => {
+        const graph = await getFullereneForVisualization(id, n);
         selectFullerene(graph);
     }
     return fullerenesListElementInfo?.map((fullerene) => {
@@ -32,7 +32,7 @@ export function DetailedFullereneList({ fullerenesListElementInfo, selectFullere
                             </div>
                         </div>
                         <Button
-                            onClick={() => setSelectedFullerene(fullerene.id)}
+                            onClick={() => setSelectedFullerene(fullerene.id, fullerene.n)}
                             className="shrink-0"
                         >
                             View

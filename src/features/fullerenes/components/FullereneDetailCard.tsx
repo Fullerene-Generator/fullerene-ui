@@ -1,20 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { FullereneVisualizer } from "./components/FullereneVisualizer";
-import type { Fullerene } from "@/types/Fullerene";
+import { FullereneGraphRenderer } from "./FullereneGraphRenderer";
+import type { FullereneStructure } from "@/features/fullerenes/types/FullereneStructure";
 import { Select, SelectGroup, SelectTrigger, SelectItem, SelectContent, SelectValue, SelectLabel } from "@/components/ui/select";
 import { useState } from "react";
 
 interface FullereneVisualizationCardProps {
-    selectedFullerene: Fullerene;
+    selectedFullerene: FullereneStructure;
 }
 
-export function FullereneVisualizationCard({ selectedFullerene }: FullereneVisualizationCardProps) {
+export function FullereneDetailCard({ selectedFullerene }: FullereneVisualizationCardProps) {
 
-    const [layout, setLayout] = useState<string>("circle")
+    const [layout, setLayout] = useState<string>("preset")
 
     return (<Card>
         <CardHeader>
-            <CardTitle>{selectedFullerene.name}</CardTitle>
+            <CardTitle>{selectedFullerene.vertices}</CardTitle>
             <CardDescription>
                 Interactive 2D molecular structure visualization
             </CardDescription>
@@ -41,6 +41,7 @@ export function FullereneVisualizationCard({ selectedFullerene }: FullereneVisua
                     <SelectContent>
                         <SelectGroup>
                             <SelectLabel>Layouts</SelectLabel>
+                            <SelectItem value="preset">Preset</SelectItem>
                             <SelectItem value="grid">Grid</SelectItem>
                             <SelectItem value="circle">Circle</SelectItem>
                             <SelectItem value="concentric">Concentric</SelectItem>
@@ -51,7 +52,7 @@ export function FullereneVisualizationCard({ selectedFullerene }: FullereneVisua
                     </SelectContent>
                 </Select>
             </div>
-            <FullereneVisualizer fullerene={selectedFullerene} layout={layout} />
+            <FullereneGraphRenderer fullerene={selectedFullerene} layout={layout} />
         </CardContent>
     </Card>)
 }

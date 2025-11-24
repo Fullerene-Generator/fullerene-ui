@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
-import { generateFullereneListInfo } from "@/utils/mockClient";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Input } from "../../../components/ui/input";
+import { generate, cancelGeneration } from "@/services/mockClient";
 
 interface GenerateCardProps {
-    setFullerenesListInfo: Function;
+    isGenerating: boolean;
 }
 
 
-export function GeneratorCard({ setFullerenesListInfo }: GenerateCardProps) {
+export function GenerationRequestCard({ isGenerating }: GenerateCardProps) {
 
     const [maxVertices, setMaxVertices] = useState("");
-    const [isGenerating, setIsGenerating] = useState(false);
 
-    function handleGenerate() {
+    async function handleGenerate() {
 
         const max = parseInt(maxVertices);
 
@@ -23,16 +22,12 @@ export function GeneratorCard({ setFullerenesListInfo }: GenerateCardProps) {
             return;
         }
 
-        setIsGenerating(true)
-
-        setTimeout(async () => {
-            const generated = await generateFullereneListInfo(max);
-            console.log("Generated:", generated);
-            setFullerenesListInfo(generated);
-            setIsGenerating(false);
-        }, 500);
+        await generate(max);
     }
 
+    async function handleCancelGenerate() {
+        await cancelGeneration()
+    }
     return (
         <Card className="mb-6">
             <CardHeader>
@@ -52,6 +47,9 @@ export function GeneratorCard({ setFullerenesListInfo }: GenerateCardProps) {
                     <Button onClick={handleGenerate} disabled={isGenerating} size="lg">
                         {!isGenerating ? "Generate" : "Generating..."}
                     </Button>
+                    {
+                        isGenerating && <Button variant="destructive" size="lg" onClick={handleCancelGenerate}>Cancel</Button>
+                    }
                 </div>
             </CardContent>
         </Card>

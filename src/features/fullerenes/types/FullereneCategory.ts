@@ -1,4 +1,4 @@
-export interface FullereneListInfo {
+export interface FullereneCategory {
     vertices: number;
     count: number;
 }

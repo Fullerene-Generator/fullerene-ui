@@ -1,27 +1,26 @@
-import type { FullereneListInfo } from "@/types/FullereneListInfo";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCategory";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { generateListOfFullerenes, getFullereneForVisualization } from "@/utils/mockClient";
-import type { FullereneListElementInfo } from "@/types/FullereneListElementInfo";
-import { Spinner } from "../../../ui/spinner";
+import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
+import { Spinner } from "../../../components/ui/spinner";
 import { ArrowLeft } from "lucide-react"
-import { FullereneGenerationOverviewList } from "./components/FullereneGenerationOverviewList";
-import { DetailedFullereneList } from "./components/DetailedFullereneList";
+import { FullereneOverviewList } from "./FullereneOverviewList";
+import { FullereneItemList } from "./FullereneItemList";
 
-interface FullereneListProps {
-    fullerenesListInfo: FullereneListInfo[];
+interface FullereneListBrowserProps {
+    fullerenesListInfo: FullereneCategory[];
     selectFullerene: Function;
 }
 
 
-export function FullereneList({ fullerenesListInfo, selectFullerene }: FullereneListProps) {
+export function FullereneListBrowser({ fullerenesListInfo, selectFullerene }: FullereneListBrowserProps) {
 
     const allFullerenesCount = fullerenesListInfo.map(e => e.count).reduce((a, b) => a + b)
 
     const [loading, setLoading] = useState<Boolean>(false)
     const [activeItem, setActiveItem] = useState<Number | null>(null)
-    const [data, setData] = useState<FullereneListElementInfo[]>([])
+    const [data, setData] = useState<FullereneItem[]>([])
 
     const setActiveItemNull = () => {
         setActiveItem(null)
@@ -41,12 +40,12 @@ export function FullereneList({ fullerenesListInfo, selectFullerene }: Fullerene
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                 {
                     loading ? <Spinner /> :
-                        (activeItem == null ? <FullereneGenerationOverviewList fullerenesListInfo={fullerenesListInfo} setActiveItem={setActiveItem} setData={setData} setLoading={setLoading} /> :
+                        (activeItem == null ? <FullereneOverviewList fullerenesListInfo={fullerenesListInfo} setActiveItem={setActiveItem} setData={setData} setLoading={setLoading} /> :
                             (<>
                                 <Button variant="outline" size="icon" aria-label="Submit" onClick={setActiveItemNull}>
                                     <ArrowLeft />
                                 </Button>
-                                <DetailedFullereneList fullerenesListElementInfo={data} selectFullerene={selectFullerene} />
+                                <FullereneItemList fullerenesListElementInfo={data} selectFullerene={selectFullerene} />
                             </>
                             )
                         )

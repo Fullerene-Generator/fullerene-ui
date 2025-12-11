@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { generateFullereneListInfo } from "@/services/mockClient";
 import type { FullereneStructure } from "@/features/fullerenes/types/FullereneStructure";
 import { FullereneDetailCard } from "./FullereneDetailCard";
+import { RenderOptionToggleCard } from "./RenderOptionToggleCard";
 
 interface FullereneResultsContainerProps {
     isGenerating: boolean;
@@ -43,7 +44,7 @@ export function FullereneResultsContainer({ isGenerating }: FullereneResultsCont
                     />
                 </div>
                 <div className="col-span-2">
-                    {fullerene == null ? <NoFullerenesSelectedCard /> : <FullereneDetailCard selectedFullerene={fullerene} />}
+                    {fullerene == null ? <NoFullerenesSelectedCard /> : <RenderOptionToggleCard selectedFullerene={fullerene} />}
                 </div>
             </div>) :
             < NoFullerenesGeneratedCard />

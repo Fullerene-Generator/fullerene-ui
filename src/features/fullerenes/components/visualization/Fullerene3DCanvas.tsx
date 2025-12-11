@@ -1,12 +1,12 @@
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
-import type { FullereneStructure } from "../types/FullereneStructure";
+import type { FullereneStructure } from "../../types/FullereneStructure";
 
 interface Fullerene3DProps {
     selectedFullerene: FullereneStructure;
 }
 
-export function Fullerene3D({ selectedFullerene }: Fullerene3DProps) {
+export function Fullerene3DCanvas({ selectedFullerene }: Fullerene3DProps) {
 
     return (
         <Canvas className="w-full h-full min-h-[500px]" camera={{ position: [0, 0, 1] }} style={{ background: "black" }}>

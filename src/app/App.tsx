@@ -1,5 +1,5 @@
 import { Header } from "@/components/common/Header";
-import { GenerationRequestCard } from "../features/fullerenes/components/GenerationRequestCard";
+import { GenerationRequestCard } from "../features/fullerenes/components/generating/GenerationRequestCard";
 import { useState, useEffect } from "react";
 import { FullereneResultsContainer } from "../features/fullerenes/components/FullereneResultsContainer";
 import { isAlgorithmRunning } from "@/services/mockClient";

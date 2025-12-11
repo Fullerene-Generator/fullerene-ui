@@ -11,7 +11,7 @@ interface FullereneOverviewListProps {
     setData: Function;
 }
 
-export function FullereneOverviewList({ fullerenesListInfo, setLoading, setActiveItem, setData }: FullereneOverviewListProps) {
+export function ClusteredFullerenesList({ fullerenesListInfo, setLoading, setActiveItem, setData }: FullereneOverviewListProps) {
 
     const handleListElementClick = async (value: number) => {
 

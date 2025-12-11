@@ -1,18 +1,13 @@
 import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCategory";
-import { FullereneListBrowser } from "./FullereneListBrowser";
+import { FullerenesList } from "./lists/FullerenesList";
 import { NoFullerenesGeneratedCard } from "../../../components/empty-states/NoFullerenesGeneratedCard";
 import { NoFullerenesSelectedCard } from "../../../components/empty-states/NoFullerenesSelectedCard";
 import { useEffect, useState } from "react";
 import { generateFullereneListInfo } from "@/services/mockClient";
 import type { FullereneStructure } from "@/features/fullerenes/types/FullereneStructure";
-import { FullereneDetailCard } from "./FullereneDetailCard";
-import { RenderOptionToggleCard } from "./RenderOptionToggleCard";
+import { ToggleVisualizationCard } from "./visualization/ToggleVisualizationTypeCard";
 
-interface FullereneResultsContainerProps {
-    isGenerating: boolean;
-}
-
-export function FullereneResultsContainer({ isGenerating }: FullereneResultsContainerProps) {
+export function FullereneResultsContainer() {
     {
         const [fullerenesListInfo, setFullerenesListInfo] = useState<FullereneCategory[]>([])
         const [fullerene, setFullerene] = useState<FullereneStructure | null>(null)
@@ -39,12 +34,12 @@ export function FullereneResultsContainer({ isGenerating }: FullereneResultsCont
         return fullerenesListInfo.length > 0 ? (
             <div className="grid grid-cols-3 gap-6">
                 <div className="col-span-1">
-                    <FullereneListBrowser
+                    <FullerenesList
                         fullerenesListInfo={fullerenesListInfo} selectFullerene={setFullerene}
                     />
                 </div>
                 <div className="col-span-2">
-                    {fullerene == null ? <NoFullerenesSelectedCard /> : <RenderOptionToggleCard selectedFullerene={fullerene} />}
+                    {fullerene == null ? <NoFullerenesSelectedCard /> : <ToggleVisualizationCard selectedFullerene={fullerene} />}
                 </div>
             </div>) :
             < NoFullerenesGeneratedCard />

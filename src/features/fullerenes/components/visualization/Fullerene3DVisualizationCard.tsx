@@ -1,18 +1,13 @@
-import { Canvas, useFrame } from '@react-three/fiber'
-import { useRef, useState } from 'react'
-import type { FullereneStructure } from '../types/FullereneStructure'
-import * as THREE from 'three'
-import { Mesh } from 'three'
+import type { FullereneStructure } from '../../types/FullereneStructure'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { OrbitControls } from '@react-three/drei'
-import { Fullerene3D } from './Fullerene3D'
+import { Fullerene3DCanvas } from './Fullerene3DCanvas'
 
 interface Fullerene3DRendererProps {
     selectedFullerene: FullereneStructure;
 }
 
 
-export function Fullerene3DRenderer({ selectedFullerene }: Fullerene3DRendererProps) {
+export function Fullerene3DVisualizationCard({ selectedFullerene }: Fullerene3DRendererProps) {
     return (
 
         <Card className="flex flex-col h-full">
@@ -36,7 +31,7 @@ export function Fullerene3DRenderer({ selectedFullerene }: Fullerene3DRendererPr
                     </div>
                 </div>
                 <div className="flex-1 border rounded-lg bg-white">
-                    <Fullerene3D selectedFullerene={selectedFullerene} />
+                    <Fullerene3DCanvas selectedFullerene={selectedFullerene} />
                 </div>
             </CardContent>
         </Card>

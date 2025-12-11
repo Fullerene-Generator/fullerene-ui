@@ -8,7 +8,7 @@ interface DetailedFullereneListProps {
     selectFullerene: Function;
 }
 
-export function FullereneItemList({ fullerenesListElementInfo, selectFullerene }: DetailedFullereneListProps) {
+export function FullerenesListItem({ fullerenesListElementInfo, selectFullerene }: DetailedFullereneListProps) {
 
     const setSelectedFullerene = async (id: number, n: number) => {
         const graph = await getFullereneForVisualization(id, n);

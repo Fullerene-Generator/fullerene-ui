@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { FullereneGraphRenderer } from "./FullereneGraphRenderer";
+import { Fullerene2DCanvas } from "./Fullerene2DCanvas";
 import type { FullereneStructure } from "@/features/fullerenes/types/FullereneStructure";
 import { Select, SelectGroup, SelectTrigger, SelectItem, SelectContent, SelectValue, SelectLabel } from "@/components/ui/select";
 import { useState } from "react";
@@ -8,7 +8,7 @@ interface FullereneVisualizationCardProps {
     selectedFullerene: FullereneStructure;
 }
 
-export function FullereneDetailCard({ selectedFullerene }: FullereneVisualizationCardProps) {
+export function Fullerene2DVisualizationCard({ selectedFullerene }: FullereneVisualizationCardProps) {
 
     const [layout, setLayout] = useState<string>("preset")
 
@@ -52,7 +52,7 @@ export function FullereneDetailCard({ selectedFullerene }: FullereneVisualizatio
                     </SelectContent>
                 </Select>
             </div>
-            <FullereneGraphRenderer fullerene={selectedFullerene} layout={layout} />
+            <Fullerene2DCanvas fullerene={selectedFullerene} layout={layout} />
         </CardContent>
     </Card>)
 }

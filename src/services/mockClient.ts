@@ -38,17 +38,31 @@ interface FullereneStructureDto {
     id: number,
     n: number,
     edges: number[][],
-    coords: number[][]
+    coords: [][],
 }
 
-export async function getFullereneForVisualization(id: number, vertices: number): Promise<FullereneStructure> {
-    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/${vertices}/${id}`);
+export async function getFullereneFor3DVisualization(id: number, vertices: number): Promise<FullereneStructure> {
 
+    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/3D/${vertices}/${id}`);
     const fullerene: FullereneStructure = {
+        id: response.data.id,
         vertices: response.data.n,
         coords: response.data.coords,
         edges: response.data.edges
     }
+    return fullerene
+}
+
+export async function getFullereneFor2DVisualization(id: number, vertices: number): Promise<FullereneStructure> {
+    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/2D/${vertices}/${id}`);
+
+    const fullerene: FullereneStructure = {
+        id: response.data.n,
+        vertices: response.data.n,
+        coords: response.data.coords,
+        edges: response.data.edges,
+    }
 
     return fullerene
 }
+

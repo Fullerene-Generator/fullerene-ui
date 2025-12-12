@@ -8,7 +8,7 @@ interface FullereneVisualizerProps {
     layout: string;
 }
 
-export function FullereneGraphRenderer({ fullerene, layout }: FullereneVisualizerProps) {
+export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const cyRef = useRef<cytoscape.Core | null>(null);
 

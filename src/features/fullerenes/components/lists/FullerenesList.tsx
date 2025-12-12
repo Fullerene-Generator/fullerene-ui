@@ -3,10 +3,10 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
-import { Spinner } from "../../../components/ui/spinner";
+import { Spinner } from "../../../../components/ui/spinner";
 import { ArrowLeft } from "lucide-react"
-import { FullereneOverviewList } from "./FullereneOverviewList";
-import { FullereneItemList } from "./FullereneItemList";
+import { ClusteredFullerenesList } from "./ClusteredFullerenesList";
+import { FullerenesListItem } from "./FullerenesListItem";
 
 interface FullereneListBrowserProps {
     fullerenesListInfo: FullereneCategory[];
@@ -14,7 +14,7 @@ interface FullereneListBrowserProps {
 }
 
 
-export function FullereneListBrowser({ fullerenesListInfo, selectFullerene }: FullereneListBrowserProps) {
+export function FullerenesList({ fullerenesListInfo, selectFullerene }: FullereneListBrowserProps) {
 
     const allFullerenesCount = fullerenesListInfo.map(e => e.count).reduce((a, b) => a + b)
 
@@ -40,12 +40,12 @@ export function FullereneListBrowser({ fullerenesListInfo, selectFullerene }: Fu
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                 {
                     loading ? <Spinner /> :
-                        (activeItem == null ? <FullereneOverviewList fullerenesListInfo={fullerenesListInfo} setActiveItem={setActiveItem} setData={setData} setLoading={setLoading} /> :
+                        (activeItem == null ? <ClusteredFullerenesList fullerenesListInfo={fullerenesListInfo} setActiveItem={setActiveItem} setData={setData} setLoading={setLoading} /> :
                             (<>
                                 <Button variant="outline" size="icon" aria-label="Submit" onClick={setActiveItemNull}>
                                     <ArrowLeft />
                                 </Button>
-                                <FullereneItemList fullerenesListElementInfo={data} selectFullerene={selectFullerene} />
+                                <FullerenesListItem fullerenesListElementInfo={data} selectFullerene={selectFullerene} />
                             </>
                             )
                         )

@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
-import { getFullereneForVisualization } from "@/services/mockClient";
 
 interface DetailedFullereneListProps {
     fullerenesListElementInfo: FullereneItem[] | null;
@@ -11,8 +10,7 @@ interface DetailedFullereneListProps {
 export function FullerenesListItem({ fullerenesListElementInfo, selectFullerene }: DetailedFullereneListProps) {
 
     const setSelectedFullerene = async (id: number, n: number) => {
-        const graph = await getFullereneForVisualization(id, n);
-        selectFullerene(graph);
+        selectFullerene({ id: id, n: n });
     }
     return fullerenesListElementInfo?.map((fullerene) => {
         return (

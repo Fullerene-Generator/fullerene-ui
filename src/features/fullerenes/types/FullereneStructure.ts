@@ -1,7 +1,7 @@
 export interface FullereneStructure {
+    id: number;
     vertices: number;
     coords: number[][];
     edges: number[][];
-    coords3D: [number, number, number][];
 }
 

@@ -38,51 +38,31 @@ interface FullereneStructureDto {
     id: number,
     n: number,
     edges: number[][],
-    coords: number[][],
-    coords3D: [number, number, number][]
+    coords: [][],
 }
 
-export async function getFullereneForVisualization(id: number, vertices: number): Promise<FullereneStructure> {
-    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/${vertices}/${id}`);
+export async function getFullereneFor3DVisualization(id: number, vertices: number): Promise<FullereneStructure> {
+
+    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/3D/${vertices}/${id}`);
+    const fullerene: FullereneStructure = {
+        id: response.data.id,
+        vertices: response.data.n,
+        coords: response.data.coords,
+        edges: response.data.edges
+    }
+    return fullerene
+}
+
+export async function getFullereneFor2DVisualization(id: number, vertices: number): Promise<FullereneStructure> {
+    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/2D/${vertices}/${id}`);
 
     const fullerene: FullereneStructure = {
+        id: response.data.n,
         vertices: response.data.n,
         coords: response.data.coords,
         edges: response.data.edges,
-        coords3D: [
-            [-0.254618, 0.153901, -5.04554e-06],
-            [-0.254618, 0.0475533, -0.14637],
-            [-0.254618, -0.124512, -0.0904567],
-            [-0.254618, -0.124506, 0.0904649],
-            [-0.254618, 0.0475628, 0.146367],
-            [-0.16442, 0.0853181, 0.262553],
-            [-0.0901981, 0.255969, 0.18596],
-            [-0.16442, 0.276067, -9.05067e-06],
-            [-0.0901981, 0.255957, -0.185977],
-            [-0.16442, 0.0853009, -0.262558],
-            [-0.0901981, -0.0977791, -0.3009],
-            [-0.16442, -0.223348, -0.162261],
-            [-0.0901981, -0.316388, 1.03726e-05],
-            [-0.16442, -0.223338, 0.162276],
-            [-0.0901981, -0.0977594, 0.300906],
-            [0.254618, 0.0475628, 0.146367],
-            [0.16443, 0.0853181, 0.262553],
-            [0.0901981, -0.0977594, 0.300906],
-            [0.16442, -0.223338, 0.162276],
-            [0.254618, -0.124506, 0.0904649],
-            [0.254618, 0.153901, -5.04554e-06],
-            [0.16442, 0.276067, -9.05067e-06],
-            [0.0901981, 0.255969, 0.18596],
-            [0.254618, 0.0475533, -0.14637],
-            [0.16442, 0.0853009, -0.262558],
-            [0.0901981, 0.255957, -0.185977],
-            [0.254618, -0.124512, -0.0904567],
-            [0.16442, -0.223348, -0.162261],
-            [0.0901981, -0.0977791, -0.3009],
-            [0.0901981, -0.316388, 1.03726e-05],
-        ]
-
     }
 
     return fullerene
 }
+

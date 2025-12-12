@@ -4,13 +4,13 @@ import { NoFullerenesGeneratedCard } from "../../../components/empty-states/NoFu
 import { NoFullerenesSelectedCard } from "../../../components/empty-states/NoFullerenesSelectedCard";
 import { useEffect, useState } from "react";
 import { generateFullereneListInfo } from "@/services/mockClient";
-import type { FullereneStructure } from "@/features/fullerenes/types/FullereneStructure";
 import { ToggleVisualizationCard } from "./visualization/ToggleVisualizationTypeCard";
+import type { FullereneIdentifier } from "../types/FullereneIdentifier";
 
 export function FullereneResultsContainer() {
     {
         const [fullerenesListInfo, setFullerenesListInfo] = useState<FullereneCategory[]>([])
-        const [fullerene, setFullerene] = useState<FullereneStructure | null>(null)
+        const [fullerene, setFullerene] = useState<FullereneIdentifier | null>(null)
 
         useEffect(() => {
             const fetchResults = async () => {

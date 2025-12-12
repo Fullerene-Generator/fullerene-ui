@@ -1,16 +1,17 @@
 import type { FullereneStructure } from '../../types/FullereneStructure'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Fullerene3DCanvas } from './Fullerene3DCanvas'
+import { Spinner } from '@/components/ui/spinner'
 
 interface Fullerene3DRendererProps {
-    selectedFullerene: FullereneStructure;
+    selectedFullerene: FullereneStructure | null;
 }
 
 
 export function Fullerene3DVisualizationCard({ selectedFullerene }: Fullerene3DRendererProps) {
     return (
 
-        <Card className="flex flex-col h-full">
+        selectedFullerene == null ? <Spinner /> : <Card className="flex flex-col h-full">
             <CardHeader>
                 <CardTitle>{selectedFullerene.vertices}</CardTitle>
                 <CardDescription>

@@ -17,8 +17,12 @@ export function GenerationRequestCard({ isGenerating }: GenerateCardProps) {
 
         const max = parseInt(maxVertices);
 
-        if (isNaN(max) || max < 10) {
-            alert("Please enter a valid number of vertices (minimum 10)");
+        if (isNaN(max)) {
+            alert("Please provide a numeric value")
+        }
+
+        if (max < 20) {
+            alert("Please enter a valid number of vertices (minimum 20)");
             return;
         }
 

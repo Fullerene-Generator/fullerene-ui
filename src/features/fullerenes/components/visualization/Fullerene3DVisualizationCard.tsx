@@ -15,7 +15,7 @@ export function Fullerene3DVisualizationCard({ selectedFullerene }: Fullerene3DR
             <CardHeader>
                 <CardTitle>{selectedFullerene.vertices}</CardTitle>
                 <CardDescription>
-                    Interactive molecular structure visualization
+                    Interactive 3D molecular structure visualization
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">

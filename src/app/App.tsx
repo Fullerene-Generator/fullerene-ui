@@ -28,6 +28,7 @@ function App() {
   return (
     <div className="min-h-screen w-full bg-slate-50">
       <div className="container mx-auto p-6 max-w-7xl">
+        <title>Fullerene generator</title>
         <Header />
         <GenerationRequestCard isGenerating={isGenerating} />
         <FullereneResultsContainer isGenerating={isGenerating} />

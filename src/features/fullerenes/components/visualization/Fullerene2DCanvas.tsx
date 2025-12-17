@@ -137,7 +137,7 @@ export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProp
 
     return (
         <div className="w-full h-full border rounded-lg bg-white">
-            <div ref={containerRef} className="w-full h-full min-h-[500px]" />
+            <div ref={containerRef} className="w-full h-full min-h-[500px]" data-testid={"2D-canvas"} />
         </div>
     );
 }

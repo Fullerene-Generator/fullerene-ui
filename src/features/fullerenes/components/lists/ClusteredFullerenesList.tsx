@@ -40,7 +40,7 @@ export function ClusteredFullerenesList({ fullerenesListInfo, setLoading, setAct
                                 <span>count: {fullerene.count}</span>
                             </div>
                         </div>
-                        <Button onClick={() => handleListElementClick(fullerene.vertices)}>
+                        <Button onClick={() => handleListElementClick(fullerene.vertices)} data-testid={`see-fullerene-${fullerene.vertices}`}>
                             See Fullerenes
                         </Button>
                     </div>

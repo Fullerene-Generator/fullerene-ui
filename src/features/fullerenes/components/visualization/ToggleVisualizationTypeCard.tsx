@@ -48,10 +48,10 @@ export function ToggleVisualizationCard({ selectedFullerene }: RenderOptionToggl
         }
     }
     return (
-        <Tabs defaultValue="2D" className="flex flex-col h-full" onValueChange={handleVisualizationChange}>
+        <Tabs defaultValue="2D" className="flex flex-col h-full" onValueChange={handleVisualizationChange} data-testid={"Tabs"}>
             <TabsList>
-                <TabsTrigger value="2D">2D view</TabsTrigger>
-                <TabsTrigger value="3D">3D view</TabsTrigger>
+                <TabsTrigger value="2D" data-testid={"2D-tab"}>2D view</TabsTrigger>
+                <TabsTrigger value="3D" data-testid={"3D-tab"}>3D view</TabsTrigger>
             </TabsList>
             <TabsContent value="2D" className="flex-1 h-full">
                 <Fullerene2DVisualizationCard selectedFullerene={visualizationState.fullerene2D} />

@@ -9,7 +9,7 @@ interface Fullerene3DProps {
 export function Fullerene3DCanvas({ selectedFullerene }: Fullerene3DProps) {
     console.log(selectedFullerene.coords[0].length.toString())
     return (
-        <Canvas className="w-full h-full min-h-[500px]" camera={{ position: [0, 0, 1] }} style={{ background: "black" }}>
+        <Canvas className="w-full h-full min-h-[500px]" camera={{ position: [0, 0, 1] }} style={{ background: "black" }} data-testid={"3D-canvas"}>
             {selectedFullerene.coords.map((coords, idx) => VertexMesh([coords[0], coords[1], coords[2]], idx))}
             {selectedFullerene.edges.map((edge) => {
                 return EdgeMesh(
@@ -31,9 +31,6 @@ function VertexMesh(position: [number, number, number], id: number) {
                 <sphereGeometry args={[0.01, 16, 16]} />
                 <meshBasicMaterial color={0x00ff00} />
             </mesh>
-            <Text color="white" position={position} fontSize={0.1}>
-                {id.toString()}
-            </Text>
         </>)
 }
 

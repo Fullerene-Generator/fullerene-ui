@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
 
@@ -14,30 +14,39 @@ export function FullerenesListItem({ fullerenesListElementInfo, selectFullerene 
     }
     return fullerenesListElementInfo?.map((fullerene) => {
         return (
-            <Card key={fullerene.id}
-                className="cursor-pointer transition-all duration-200 hover:shadow-md hover:border-slate-300 bg-gradient-to-br from-white to-slate-50"
+            <Card
+                key={fullerene.id}
             >
-                <CardContent className="p-5">
+                <CardHeader>
+                    <CardTitle className="text-base font-semibold tracking-tight">
+                        Fullerene
+                    </CardTitle>
+                </CardHeader>
+
+                <CardContent className="px-6 pb-6">
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex-1 space-y-2">
-                            <div className="font-medium text-slate-900">
-                                {fullerene.description}
+                            <div>
+                                <span className="text-muted-foreground pr-2">ID:</span>
+                                <span className="font-medium">{fullerene.id}</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
-                                    {fullerene.hashCode}
-                                </span>
+
+                            <div>
+                                <span className="text-muted-foreground pr-2">Vertices:</span>
+                                <span className="font-medium">{fullerene.n}</span>
                             </div>
                         </div>
+
                         <Button
+                            size="sm"
                             onClick={() => setSelectedFullerene(fullerene.id, fullerene.n)}
-                            className="shrink-0"
                         >
                             View
                         </Button>
                     </div>
                 </CardContent>
             </Card>
+
 
         );
     })

@@ -34,6 +34,13 @@ export async function generateListOfFullerenes(vertices: number): Promise<Fuller
     return response.data.metadata;
 }
 
+export async function getMetadataById(id: number): Promise<FullereneItem> {
+    const response = await axios.get<{ metadata: FullereneItem }>(`http://localhost:8000/fullerenes/ID/${id}`);
+    console.log("Recieved metadata for ID: {}, metadata : {}", id, response.data);
+
+    return response.data.metadata
+}
+
 interface FullereneStructureDto {
     id: number,
     n: number,

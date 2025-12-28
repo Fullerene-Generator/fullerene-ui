@@ -7,24 +7,17 @@ import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCat
 interface FullereneOverviewListProps {
     fullerenesListInfo: FullereneCategory[];
     setLoading: Function;
-    setActiveItem: Function;
     setData: Function;
 }
 
-export function ClusteredFullerenesList({ fullerenesListInfo, setLoading, setActiveItem, setData }: FullereneOverviewListProps) {
+export function ClusteredFullerenesList({ fullerenesListInfo, setLoading, setData }: FullereneOverviewListProps) {
 
     const handleListElementClick = async (value: number) => {
 
-        if (value === null) {
-            setActiveItem(value);
-            return;
-        }
         setLoading(true)
-        setActiveItem(value)
         const info = await generateListOfFullerenes(value)
         setData(info);
         setLoading(false)
-
     }
 
     return fullerenesListInfo.map((fullerene) => {

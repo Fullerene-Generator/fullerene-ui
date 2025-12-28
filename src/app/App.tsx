@@ -31,7 +31,7 @@ function App() {
         <title>Fullerene generator</title>
         <Header />
         <GenerationRequestCard isGenerating={isGenerating} />
-        <FullereneResultsContainer isGenerating={isGenerating} />
+        <FullereneResultsContainer />
       </div>
     </div>
   );

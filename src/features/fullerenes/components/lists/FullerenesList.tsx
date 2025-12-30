@@ -15,6 +15,7 @@ interface FullereneListBrowserProps {
     selectFullerene: Function;
 }
 
+type ViewMode = "clustered" | "single";
 
 export function FullerenesList({ fullerenesListInfo, selectFullerene }: FullereneListBrowserProps) {
 
@@ -23,8 +24,11 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
     const [loading, setLoading] = useState<Boolean>(false)
     const [data, setData] = useState<FullereneItem[]>([])
     const [ID, setID] = useState("");
+    const [view, setView] = useState<ViewMode>("clustered");
+    const [desiredSize, setDesiredSize] = useState<number>(0)
 
     const clearData = () => {
+        setView("clustered")
         setData([])
     }
 
@@ -45,6 +49,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
         const metadata = await getMetadataById(fullereneID);
 
         setData([metadata])
+        setView("single")
     }
 
     return (
@@ -66,16 +71,20 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
                     </div>
                 </CardContent>
             </Card>
+            <Button variant="outline" size="icon" aria-label="Submit" onClick={clearData}>
+                <ArrowLeft />
+            </Button>
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                 {
                     loading ? <Spinner /> :
-                        (data.length == 0 ? <ClusteredFullerenesList fullerenesListInfo={fullerenesListInfo} setData={setData} setLoading={setLoading} /> :
-                            (<>
-                                <Button variant="outline" size="icon" aria-label="Submit" onClick={clearData}>
-                                    <ArrowLeft />
-                                </Button>
-                                <FullerenesListItem fullerenesListElementInfo={data} selectFullerene={selectFullerene} />
-                            </>
+                        (view === "clustered" ? <ClusteredFullerenesList fullerenesListInfo={fullerenesListInfo}
+                            changeViewAndDesiredSize={(type: ViewMode, n: number) => {
+                                setDesiredSize(n)
+                                setView(type)
+                            }}
+                            setLoading={setLoading} /> :
+                            (
+                                <FullerenesListItem data={data} selectFullerene={selectFullerene} setData={setData} setLoading={setLoading} fullereneCount={fullerenesListInfo.filter((f) => f.vertices === desiredSize)[0].count} desiredVertices={desiredSize} />
                             )
                         )
                 }

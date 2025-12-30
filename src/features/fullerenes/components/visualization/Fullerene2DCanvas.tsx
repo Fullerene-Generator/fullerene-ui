@@ -74,29 +74,23 @@ export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProp
                     selector: "node",
                     style: {
                         "background-color": "#3b82f6",
-                        color: "#fff",
-                        "text-valign": "center",
-                        "text-halign": "center",
-                        "font-size": "10px",
                         width: "10px",
                         height: "10px",
-                        "border-color": "#1e40af",
                     },
                 },
                 {
                     selector: "node.highlighted",
                     style: {
+                        width: "10px",
+                        height: "10px",
                         "background-color": "#1e40af",
                         "border-color": "#1e3a8a",
-                        "border-width": 3,
+                        "border-width": 1,
                     },
                 },
                 {
                     selector: "edge",
                     style: {
-                        width: 0.01,
-                        "line-color": "#94a3b8",
-                        "target-arrow-color": "#94a3b8",
                         "curve-style": "bezier",
                     },
                 },
@@ -104,7 +98,6 @@ export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProp
                     selector: "edge.highlighted",
                     style: {
                         "line-color": "#3b82f6",
-                        width: 3,
                     },
                 },
             ],

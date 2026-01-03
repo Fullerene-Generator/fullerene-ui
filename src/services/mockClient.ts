@@ -26,10 +26,16 @@ export async function generateFullereneListInfo(): Promise<FullereneCategory[]> 
     return response.data.items;
 }
 
-export async function generateListOfFullerenes(vertices: number): Promise<FullereneItem[]> {
+export async function generateListOfFullerenes(vertices: number, limit: number, offset: number): Promise<FullereneItem[]> {
 
-    const response = await axios.get<{ metadata: FullereneItem[] }>(`http://localhost:8000/fullerenes/${vertices}`);
-    console.log("Generating fullerene list for vertices: {}", vertices);
+    const response = await axios.get<{ metadata: FullereneItem[] }>(`http://localhost:8000/fullerenes/${vertices}`, {
+        params: {
+            limit: limit,
+            offset: offset
+        }
+    });
+
+    console.log("Generating fullerene list for vertices: {}, limit: {}, offset {}", vertices, limit, offset);
 
     return response.data.metadata;
 }

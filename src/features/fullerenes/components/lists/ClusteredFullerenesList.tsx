@@ -5,15 +5,15 @@ import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCat
 
 interface FullereneOverviewListProps {
     fullerenesListInfo: FullereneCategory[];
-    changeViewAndDesiredSize: Function;
+    fetchExpandedListData: Function;
 }
 
-export function ClusteredFullerenesList({ fullerenesListInfo, changeViewAndDesiredSize }: FullereneOverviewListProps) {
+export function ClusteredFullerenesList({ fullerenesListInfo, fetchExpandedListData }: FullereneOverviewListProps) {
 
 
 
     const handleListElementClick = async (value: number) => {
-        changeViewAndDesiredSize("single", value);
+        fetchExpandedListData("single", value);
     }
 
     return fullerenesListInfo.map((fullerene) => {

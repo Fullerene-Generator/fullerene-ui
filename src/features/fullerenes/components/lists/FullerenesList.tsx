@@ -5,9 +5,10 @@ import { useState } from "react";
 import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
 import { ArrowLeft } from "lucide-react"
 import { ClusteredFullerenesList } from "./ClusteredFullerenesList";
-import { FullerenesListItem } from "./FullerenesListItem";
+import { ExpandedFullerenesList } from "./ExpandedFullerenesList";
 import { Input } from "@/components/ui/input";
 import { getMetadataById } from "@/services/mockClient";
+import { generateListOfFullerenes } from "@/services/mockClient";
 
 interface FullereneListBrowserProps {
     fullerenesListInfo: FullereneCategory[];
@@ -21,9 +22,10 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
     const allFullerenesCount = fullerenesListInfo.map(e => e.count).reduce((a, b) => a + b)
 
     const [data, setData] = useState<FullereneItem[]>([])
+    const [chosenFullerenesCount, setChosenFullerensCount] = useState<number>(0)
     const [ID, setID] = useState("");
     const [view, setView] = useState<ViewMode>("clustered");
-    const [desiredSize, setDesiredSize] = useState<number>(0)
+    const [vertices, setVertices] = useState<number>(0)
 
     const clearData = () => {
         setView("clustered")
@@ -47,6 +49,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
 
         const metadata = await getMetadataById(fullereneID);
 
+        setChosenFullerensCount(1)
         setData([metadata])
         setView("single")
     }
@@ -73,23 +76,29 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
             <Button variant="outline" size="icon" aria-label="Submit" onClick={clearData}>
                 <ArrowLeft />
             </Button>
-            <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
-                {
-                    (view === "clustered" ? <ClusteredFullerenesList fullerenesListInfo={fullerenesListInfo}
-                        changeViewAndDesiredSize={(type: ViewMode, n: number) => {
-                            setDesiredSize(n)
-                            setView(type)
-                        }} /> :
-                        (
-                            <FullerenesListItem data={data}
-                                selectFullerene={selectFullerene}
-                                setData={setData}
-                                fullereneCount={ID != "" ? 0 : fullerenesListInfo.filter((f) => f.vertices === desiredSize)[0].count}
-                                desiredVertices={desiredSize} ID={ID} />
-                        )
+
+            {
+                (view === "clustered" ?
+                    <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
+                        <ClusteredFullerenesList fullerenesListInfo={fullerenesListInfo}
+                            fetchExpandedListData={async (type: ViewMode, n: number) => {
+                                const res = await generateListOfFullerenes(n, 30, 0)
+                                setData(res)
+                                setView(type)
+                                let count = fullerenesListInfo.find((f) => f.vertices === n)?.count
+                                setChosenFullerensCount(count!)
+                                setVertices(n)
+                            }} /> </div> :
+                    (
+                        <ExpandedFullerenesList data={data}
+                            selectFullerene={selectFullerene}
+                            setData={setData}
+                            fullerenesCount={chosenFullerenesCount}
+                            vertices={vertices}
+                        />
                     )
-                }
-            </div>
+                )
+            }
         </div>
     );
 }

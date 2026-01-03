@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
-import { Spinner } from "../../../../components/ui/spinner";
 import { ArrowLeft } from "lucide-react"
 import { ClusteredFullerenesList } from "./ClusteredFullerenesList";
 import { FullerenesListItem } from "./FullerenesListItem";
@@ -21,7 +20,6 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
 
     const allFullerenesCount = fullerenesListInfo.map(e => e.count).reduce((a, b) => a + b)
 
-    const [loading, setLoading] = useState<Boolean>(false)
     const [data, setData] = useState<FullereneItem[]>([])
     const [ID, setID] = useState("");
     const [view, setView] = useState<ViewMode>("clustered");
@@ -30,6 +28,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
     const clearData = () => {
         setView("clustered")
         setData([])
+        setID("")
     }
 
 
@@ -65,7 +64,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
                     <div className="flex gap-x-4 items-end">
                         <div className="flex-1 max-w-xs">
                             <label htmlFor="vertices" className="block text-sm font-medium mb-2">Provide ID:</label>
-                            <Input id="vertices" type="number" onChange={(e) => setID(e.target.value)} />
+                            <Input id="vertices" type="number" onChange={(e) => { setID(e.target.value) }} value={ID} />
                         </div>
                         <Button onClick={handleSearchByID}>Search</Button>
                     </div>
@@ -76,17 +75,19 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
             </Button>
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                 {
-                    loading ? <Spinner /> :
-                        (view === "clustered" ? <ClusteredFullerenesList fullerenesListInfo={fullerenesListInfo}
-                            changeViewAndDesiredSize={(type: ViewMode, n: number) => {
-                                setDesiredSize(n)
-                                setView(type)
-                            }}
-                            setLoading={setLoading} /> :
-                            (
-                                <FullerenesListItem data={data} selectFullerene={selectFullerene} setData={setData} setLoading={setLoading} fullereneCount={fullerenesListInfo.filter((f) => f.vertices === desiredSize)[0].count} desiredVertices={desiredSize} />
-                            )
+                    (view === "clustered" ? <ClusteredFullerenesList fullerenesListInfo={fullerenesListInfo}
+                        changeViewAndDesiredSize={(type: ViewMode, n: number) => {
+                            setDesiredSize(n)
+                            setView(type)
+                        }} /> :
+                        (
+                            <FullerenesListItem data={data}
+                                selectFullerene={selectFullerene}
+                                setData={setData}
+                                fullereneCount={ID != "" ? 0 : fullerenesListInfo.filter((f) => f.vertices === desiredSize)[0].count}
+                                desiredVertices={desiredSize} ID={ID} />
                         )
+                    )
                 }
             </div>
         </div>

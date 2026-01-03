@@ -1,24 +1,19 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCategory";
-import { useState } from "react";
 
 
 interface FullereneOverviewListProps {
     fullerenesListInfo: FullereneCategory[];
-    setLoading: Function;
     changeViewAndDesiredSize: Function;
 }
 
-export function ClusteredFullerenesList({ fullerenesListInfo, setLoading, changeViewAndDesiredSize }: FullereneOverviewListProps) {
+export function ClusteredFullerenesList({ fullerenesListInfo, changeViewAndDesiredSize }: FullereneOverviewListProps) {
 
 
 
     const handleListElementClick = async (value: number) => {
-
-        setLoading(true)
         changeViewAndDesiredSize("single", value);
-        setLoading(false)
     }
 
     return fullerenesListInfo.map((fullerene) => {

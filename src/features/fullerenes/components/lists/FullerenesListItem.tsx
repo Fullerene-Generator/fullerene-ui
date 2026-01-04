@@ -1,17 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
+import type { FullereneInfo } from "@/features/fullerenes/types/FullereneInfo";
 
 interface DetailedFullereneListProps {
-    data: FullereneItem[] | null;
+    data: FullereneInfo[] | null;
     selectFullerene: Function;
 }
 
 export function FullerenesListItem({ data, selectFullerene }: DetailedFullereneListProps) {
-
-    const setSelectedFullerene = async (id: number, n: number) => {
-        selectFullerene({ id: id, n: n });
-    }
 
     return (
         <>
@@ -42,7 +38,7 @@ export function FullerenesListItem({ data, selectFullerene }: DetailedFullereneL
 
                                 <Button
                                     size="sm"
-                                    onClick={() => setSelectedFullerene(fullerene.id, fullerene.n)}
+                                    onClick={() => selectFullerene(fullerene.id)}
                                 >
                                     View
                                 </Button>

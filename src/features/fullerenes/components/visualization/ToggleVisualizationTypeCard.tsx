@@ -1,14 +1,13 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Fullerene2DVisualizationCard } from "./Fullerene2DVisualizationCard"
 import { Fullerene3DVisualizationCard } from "./Fullerene3DVisualizationCard"
-import type { FullereneIdentifier } from "../../types/FullereneIdentifier"
 import { useEffect } from "react"
-import { getFullereneFor2DVisualization, getFullereneFor3DVisualization } from "@/services/mockClient"
+import { getFullereneFor2DVisualization, getFullereneFor3DVisualization } from "@/services/fullereneClient"
 import { useState } from "react"
 import type { FullereneStructure } from "../../types/FullereneStructure"
 
 interface RenderOptionToggleCardProps {
-    selectedFullerene: FullereneIdentifier;
+    selectedFullerene: string;
 }
 
 interface VisualizationComponentState {
@@ -23,11 +22,11 @@ export function ToggleVisualizationCard({ selectedFullerene }: RenderOptionToggl
 
     useEffect(() => {
         const fetch2D = async () => {
-            var structure2D = await getFullereneFor2DVisualization(selectedFullerene.id, selectedFullerene.n)
+            var structure2D = await getFullereneFor2DVisualization(selectedFullerene)
             setVisualizationState({ fullerene2D: structure2D, fullerene3D: null })
         }
         const fetch3D = async () => {
-            var structure3D = await getFullereneFor3DVisualization(selectedFullerene.id, selectedFullerene.n)
+            var structure3D = await getFullereneFor3DVisualization(selectedFullerene)
             setVisualizationState({ fullerene2D: null, fullerene3D: structure3D })
         }
         if (visualizatonTypeState == "2D") {
@@ -39,11 +38,11 @@ export function ToggleVisualizationCard({ selectedFullerene }: RenderOptionToggl
 
     async function handleVisualizationChange(value: String) {
         setVisualizationTypeState(value)
-        if (value == "3D" && selectedFullerene.id != visualizationState.fullerene3D?.id) {
-            var structure3D = await getFullereneFor3DVisualization(selectedFullerene.id, selectedFullerene.n)
+        if (value == "3D" && selectedFullerene != visualizationState.fullerene3D?.id) {
+            var structure3D = await getFullereneFor3DVisualization(selectedFullerene)
             setVisualizationState({ fullerene2D: visualizationState.fullerene2D, fullerene3D: structure3D })
-        } else if (value == "2D" && selectedFullerene.id != visualizationState.fullerene2D?.id) {
-            var structure2D = await getFullereneFor2DVisualization(selectedFullerene.id, selectedFullerene.n)
+        } else if (value == "2D" && selectedFullerene != visualizationState.fullerene2D?.id) {
+            var structure2D = await getFullereneFor2DVisualization(selectedFullerene)
             setVisualizationState({ fullerene2D: structure2D, fullerene3D: visualizationState.fullerene3D })
         }
     }

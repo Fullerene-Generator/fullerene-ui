@@ -1,7 +1,8 @@
 export interface FullereneStructure {
-    id: number;
+    id: string;
     vertices: number;
     coords: number[][];
     edges: number[][];
+    parent_id: string
 }
 

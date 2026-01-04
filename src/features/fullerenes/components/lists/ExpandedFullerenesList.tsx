@@ -7,13 +7,14 @@ import { generateListOfFullerenes } from "@/services/fullereneClient";
 
 interface ExpandedFullerenesListProps {
     data: FullereneInfo[] | null;
-    selectFullerene: Function;
+    setSelectedFullerene: Function;
     setData: Function
     fullerenesCount: number
     vertices: number
+    selectedFullerene: string | null
 }
 
-export function ExpandedFullerenesList({ data, selectFullerene, fullerenesCount, vertices, setData }: ExpandedFullerenesListProps) {
+export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesCount, vertices, setData, selectedFullerene }: ExpandedFullerenesListProps) {
 
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -24,7 +25,7 @@ export function ExpandedFullerenesList({ data, selectFullerene, fullerenesCount,
     return (
         <>
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
-                <FullerenesListItem data={data} selectFullerene={selectFullerene} />
+                <FullerenesListItem data={data} setSelectedFullerene={setSelectedFullerene} selectedFullerene={selectedFullerene} />
             </div>
             <Pagination>
                 <PaginationContent>

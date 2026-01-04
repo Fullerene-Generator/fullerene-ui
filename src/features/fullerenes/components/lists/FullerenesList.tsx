@@ -12,12 +12,13 @@ import { generateListOfFullerenes } from "@/services/fullereneClient";
 
 interface FullereneListBrowserProps {
     fullerenesListInfo: FullerenesClusteredListInfo[];
-    selectFullerene: Function;
+    setSelectedFullerene: Function;
+    selectedFullerene: string | null
 }
 
 type ViewMode = "clustered" | "single";
 
-export function FullerenesList({ fullerenesListInfo, selectFullerene }: FullereneListBrowserProps) {
+export function FullerenesList({ fullerenesListInfo, setSelectedFullerene, selectedFullerene }: FullereneListBrowserProps) {
 
     const allFullerenesCount = fullerenesListInfo.map(e => e.count).reduce((a, b) => a + b)
 
@@ -79,10 +80,11 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
                             }} /> </div> :
                     (
                         <ExpandedFullerenesList data={data}
-                            selectFullerene={selectFullerene}
+                            setSelectedFullerene={setSelectedFullerene}
                             setData={setData}
                             fullerenesCount={chosenFullerenesCount}
                             vertices={vertices}
+                            selectedFullerene={selectedFullerene}
                         />
                     )
                 )

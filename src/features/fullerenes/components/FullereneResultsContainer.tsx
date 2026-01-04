@@ -8,7 +8,7 @@ import { ToggleVisualizationCard } from "./visualization/ToggleVisualizationType
 export function FullereneResultsContainer() {
     {
         const [fullerenesListInfo, setFullerenesListInfo] = useState<FullerenesClusteredListInfo[]>([])
-        const [fullerene, setFullerene] = useState<string | null>(null)
+        const [selectedFullerene, setSelectedFullerene] = useState<string | null>(null)
 
         useEffect(() => {
             const fetchResults = async () => {
@@ -33,11 +33,11 @@ export function FullereneResultsContainer() {
             <div className="grid grid-cols-3 gap-6">
                 <div className="col-span-1">
                     <FullerenesList
-                        fullerenesListInfo={fullerenesListInfo} selectFullerene={setFullerene}
+                        fullerenesListInfo={fullerenesListInfo} setSelectedFullerene={setSelectedFullerene} selectedFullerene={selectedFullerene}
                     />
                 </div>
                 <div className="col-span-2">
-                    {fullerene == null ? <NoFullerenesSelectedCard /> : <ToggleVisualizationCard selectedFullerene={fullerene} />}
+                    {selectedFullerene == null ? <NoFullerenesSelectedCard /> : <ToggleVisualizationCard selectedFullerene={selectedFullerene} />}
                 </div>
             </div>) :
             < NoFullerenesGeneratedCard />

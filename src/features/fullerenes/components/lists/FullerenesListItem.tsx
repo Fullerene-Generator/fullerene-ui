@@ -4,10 +4,11 @@ import type { FullereneInfo } from "@/features/fullerenes/types/FullereneInfo";
 
 interface DetailedFullereneListProps {
     data: FullereneInfo[] | null;
-    selectFullerene: Function;
+    setSelectedFullerene: Function;
+    selectedFullerene: string | null
 }
 
-export function FullerenesListItem({ data, selectFullerene }: DetailedFullereneListProps) {
+export function FullerenesListItem({ data, setSelectedFullerene, selectedFullerene }: DetailedFullereneListProps) {
 
     return (
         <>
@@ -38,9 +39,11 @@ export function FullerenesListItem({ data, selectFullerene }: DetailedFullereneL
 
                                 <Button
                                     size="sm"
-                                    onClick={() => selectFullerene(fullerene.id)}
+                                    variant={selectedFullerene === fullerene.id ? "secondary" : "default"}
+                                    onClick={() => setSelectedFullerene(fullerene.id)}
+                                    disabled={selectedFullerene === fullerene.id}
                                 >
-                                    View
+                                    {selectedFullerene === fullerene.id ? "Selected" : "View"}
                                 </Button>
                             </div>
                         </CardContent>

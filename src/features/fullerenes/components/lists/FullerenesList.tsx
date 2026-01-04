@@ -35,7 +35,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
 
 
     async function handleSearchByID() {
-
+        console.log("Seraching by ID: {}", ID)
         const metadata = await getMetadataById(ID);
         setChosenFullerensCount(1)
         setData([metadata])
@@ -55,7 +55,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
                     <div className="flex gap-x-4 items-end">
                         <div className="flex-1 max-w-xs">
                             <label htmlFor="vertices" className="block text-sm font-medium mb-2">Provide ID:</label>
-                            <Input id="vertices" type="number" onChange={(e) => { setID(e.target.value) }} value={ID} />
+                            <Input id="vertices" onChange={(e) => { setID(e.target.value) }} value={ID} />
                         </div>
                         <Button onClick={handleSearchByID}>Search</Button>
                     </div>

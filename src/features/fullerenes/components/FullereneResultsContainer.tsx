@@ -1,21 +1,19 @@
-import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCategory";
+import type { FullerenesClusteredListInfo } from "@/features/fullerenes/types/FullerenesClusteredListInfo";
 import { FullerenesList } from "./lists/FullerenesList";
 import { NoFullerenesGeneratedCard } from "../../../components/empty-states/NoFullerenesGeneratedCard";
 import { NoFullerenesSelectedCard } from "../../../components/empty-states/NoFullerenesSelectedCard";
 import { useEffect, useState } from "react";
-import { generateFullereneListInfo } from "@/services/mockClient";
+import { generateClusteredFullerenesList } from "@/services/fullereneClient";
 import { ToggleVisualizationCard } from "./visualization/ToggleVisualizationTypeCard";
-import type { FullereneIdentifier } from "../types/FullereneIdentifier";
-
 export function FullereneResultsContainer() {
     {
-        const [fullerenesListInfo, setFullerenesListInfo] = useState<FullereneCategory[]>([])
-        const [fullerene, setFullerene] = useState<FullereneIdentifier | null>(null)
+        const [fullerenesListInfo, setFullerenesListInfo] = useState<FullerenesClusteredListInfo[]>([])
+        const [fullerene, setFullerene] = useState<string | null>(null)
 
         useEffect(() => {
             const fetchResults = async () => {
                 try {
-                    const response = await generateFullereneListInfo();
+                    const response = await generateClusteredFullerenesList();
                     setFullerenesListInfo(response)
                     console.log(response.length);
 

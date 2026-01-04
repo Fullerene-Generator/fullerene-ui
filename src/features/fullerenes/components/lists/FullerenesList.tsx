@@ -1,17 +1,17 @@
-import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCategory";
+import type { FullerenesClusteredListInfo } from "@/features/fullerenes/types/FullerenesClusteredListInfo";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import type { FullereneItem } from "@/features/fullerenes/types/FullereneItem";
+import type { FullereneInfo } from "@/features/fullerenes/types/FullereneInfo";
 import { ArrowLeft } from "lucide-react"
 import { ClusteredFullerenesList } from "./ClusteredFullerenesList";
 import { ExpandedFullerenesList } from "./ExpandedFullerenesList";
 import { Input } from "@/components/ui/input";
-import { getMetadataById } from "@/services/mockClient";
-import { generateListOfFullerenes } from "@/services/mockClient";
+import { getMetadataById } from "@/services/fullereneClient";
+import { generateListOfFullerenes } from "@/services/fullereneClient";
 
 interface FullereneListBrowserProps {
-    fullerenesListInfo: FullereneCategory[];
+    fullerenesListInfo: FullerenesClusteredListInfo[];
     selectFullerene: Function;
 }
 
@@ -21,7 +21,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
 
     const allFullerenesCount = fullerenesListInfo.map(e => e.count).reduce((a, b) => a + b)
 
-    const [data, setData] = useState<FullereneItem[]>([])
+    const [data, setData] = useState<FullereneInfo[]>([])
     const [chosenFullerenesCount, setChosenFullerensCount] = useState<number>(0)
     const [ID, setID] = useState("");
     const [view, setView] = useState<ViewMode>("clustered");
@@ -36,19 +36,7 @@ export function FullerenesList({ fullerenesListInfo, selectFullerene }: Fulleren
 
     async function handleSearchByID() {
 
-        const fullereneID = parseInt(ID);
-
-        if (isNaN(fullereneID)) {
-            alert("Please provide a numeric value")
-        }
-
-        if (fullereneID < 0) {
-            alert("Please enter a valid ID");
-            return;
-        }
-
-        const metadata = await getMetadataById(fullereneID);
-
+        const metadata = await getMetadataById(ID);
         setChosenFullerensCount(1)
         setData([metadata])
         setView("single")

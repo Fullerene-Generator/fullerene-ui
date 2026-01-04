@@ -1,12 +1,12 @@
 
-import type { FullereneItem } from "../../types/FullereneItem";
+import type { FullereneInfo } from "../../types/FullereneInfo";
 import { FullerenesListItem } from "./FullerenesListItem";
 import { Pagination, PaginationPrevious, PaginationItem, PaginationContent, PaginationLink, PaginationNext } from "@/components/ui/pagination";
 import { useState } from 'react'
-import { generateListOfFullerenes } from "@/services/mockClient";
+import { generateListOfFullerenes } from "@/services/fullereneClient";
 
 interface ExpandedFullerenesListProps {
-    data: FullereneItem[] | null;
+    data: FullereneInfo[] | null;
     selectFullerene: Function;
     setData: Function
     fullerenesCount: number

@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import type { FullereneCategory } from "@/features/fullerenes/types/FullereneCategory";
+import type { FullereneCategory } from "@/features/fullerenes/types/FullerenesClusteredListInfo";
 
 
 interface FullereneOverviewListProps {

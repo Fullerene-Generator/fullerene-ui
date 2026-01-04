@@ -2,7 +2,7 @@ import { Header } from "@/components/common/Header";
 import { GenerationRequestCard } from "../features/fullerenes/components/generating/GenerationRequestCard";
 import { useState, useEffect } from "react";
 import { FullereneResultsContainer } from "../features/fullerenes/components/FullereneResultsContainer";
-import { isAlgorithmRunning } from "@/services/mockClient";
+import { isAlgorithmRunning } from "@/services/fullereneClient";
 function App() {
 
   const [isGenerating, setIsGenerating] = useState(false);

@@ -22,9 +22,13 @@ interface FullerenesClusteredListInfoDto {
     count: number;
 }
 
-export async function generateClusteredFullerenesList(): Promise<FullerenesClusteredListInfo[]> {
+export async function generateClusteredFullerenesList(isIpr: boolean): Promise<FullerenesClusteredListInfo[]> {
 
-    const response = await axios.get<{ items: FullerenesClusteredListInfoDto[] }>("http://localhost:8000/counts");
+    const response = await axios.get<{ items: FullerenesClusteredListInfoDto[] }>("http://localhost:8000/counts", {
+        params: {
+            is_ipr: isIpr
+        }
+    });
 
     console.log("Received fullerene list info:", response.data);
 
@@ -43,14 +47,20 @@ interface FullereneInfoDto {
     is_ipr: boolean;
 }
 
-export async function generateListOfFullerenes(vertices: number, limit: number, offset: number): Promise<FullereneInfo[]> {
+export async function generateListOfFullerenes(vertices: number, limit: number, offset: number, isIpr: boolean): Promise<FullereneInfo[]> {
 
     const response = await axios.get<{ metadata: FullereneInfoDto[] }>(`http://localhost:8000/fullerenes/${vertices}`, {
         params: {
             limit: limit,
-            offset: offset
-        }
+            offset: offset,
+            is_ipr: isIpr
+        },
+        validateStatus: (status) => status === 200 || status === 404
     });
+
+    if (response.status === 404) {
+        return []
+    }
 
     console.log("Generating fullerene list for vertices: {}, limit: {}, offset {}", vertices, limit, offset);
 

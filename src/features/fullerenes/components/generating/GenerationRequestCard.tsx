@@ -6,10 +6,11 @@ import { generate, cancelGeneration } from "@/services/fullereneClient";
 
 interface GenerateCardProps {
     isGenerating: boolean;
+    setIsInitialGenerationStarted: Function
 }
 
 
-export function GenerationRequestCard({ isGenerating }: GenerateCardProps) {
+export function GenerationRequestCard({ isGenerating, setIsInitialGenerationStarted }: GenerateCardProps) {
 
     const [maxVertices, setMaxVertices] = useState("");
 
@@ -25,6 +26,8 @@ export function GenerationRequestCard({ isGenerating }: GenerateCardProps) {
             alert("Please enter a valid number of vertices (minimum 20)");
             return;
         }
+
+        setIsInitialGenerationStarted(true)
 
         await generate(max);
     }

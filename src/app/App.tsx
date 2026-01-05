@@ -6,6 +6,7 @@ import { isAlgorithmRunning } from "@/services/fullereneClient";
 function App() {
 
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isInitialGenerationStarted, setIsInitialGenerationStarted] = useState(false)
 
   useEffect(() => {
     const checkIfIsGenerating = async () => {
@@ -30,8 +31,8 @@ function App() {
       <div className="container mx-auto p-6 max-w-7xl">
         <title>Fullerene generator</title>
         <Header />
-        <GenerationRequestCard isGenerating={isGenerating} />
-        <FullereneResultsContainer />
+        <GenerationRequestCard isGenerating={isGenerating} setIsInitialGenerationStarted={setIsInitialGenerationStarted} />
+        <FullereneResultsContainer isInitialGenerationStarted={isInitialGenerationStarted} />
       </div>
     </div>
   );

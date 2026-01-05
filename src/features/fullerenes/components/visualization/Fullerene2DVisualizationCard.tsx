@@ -17,7 +17,7 @@ export function Fullerene2DVisualizationCard({ selectedFullerene }: FullereneVis
 
         <Card>
             <CardHeader>
-                <CardTitle>{selectedFullerene.vertices}</CardTitle>
+                <CardTitle>{selectedFullerene.id}</CardTitle>
                 <CardDescription>
                     Interactive 2D molecular structure visualization
                 </CardDescription>

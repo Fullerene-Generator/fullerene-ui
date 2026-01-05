@@ -35,6 +35,11 @@ export function FullerenesListItem({ data, setSelectedFullerene, selectedFullere
                                         <span className="text-muted-foreground pr-2">Vertices:</span>
                                         <span className="font-medium">{fullerene.n}</span>
                                     </div>
+
+                                    <div>
+                                        <span className="text-muted-foreground pr-2">Is IPR:</span>
+                                        <span className="font-medium">{fullerene.is_ipr ? "Yes" : "No"}</span>
+                                    </div>
                                 </div>
 
                                 <Button

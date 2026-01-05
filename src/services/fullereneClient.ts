@@ -76,8 +76,14 @@ export async function generateListOfFullerenes(vertices: number, limit: number, 
     return metadata;
 }
 
-export async function getMetadataById(id: string): Promise<FullereneInfo> {
-    const response = await axios.get<{ metadata: FullereneInfo }>(`http://localhost:8000/fullerenes/ID/${id}`);
+export async function getMetadataById(id: string): Promise<FullereneInfo | null> {
+    const response = await axios.get<{ metadata: FullereneInfo }>(`http://localhost:8000/fullerenes/ID/${id}`, {
+        validateStatus: (status) => status === 200 || status === 404
+    });
+
+    if (response.status === 404) {
+        return null
+    }
     console.log("Recieved metadata for ID: {}, metadata : {}", id, response.data);
 
     return response.data.metadata

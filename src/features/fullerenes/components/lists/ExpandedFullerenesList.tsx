@@ -7,6 +7,9 @@ import { generateListOfFullerenes } from "@/services/fullereneClient";
 import { Spinner } from "@/components/ui/spinner";
 import { FilteringContext } from "@/features/filtering/FilteringContext";
 import { NoFullereneForGivenVerticesAndCriteria } from "@/components/empty-states/NoFullereneForGivenVerticesAndCriteria";
+import { SearchByIdContext } from "@/features/filtering/SearchByIdContext";
+import { getMetadataById } from "@/services/fullereneClient";
+import { NoFullerenesForGivenID } from "@/components/empty-states/NoFullereneFoundForGivenID";
 
 interface ExpandedFullerenesListProps {
     data: FullereneInfo[] | null;
@@ -26,18 +29,23 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
 
     const isIpr = useContext(FilteringContext)
 
+    const searchByIdInfo = useContext(SearchByIdContext)
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const res = await generateListOfFullerenes(vertices, 30, (currentPage - 1) * 30, isIpr)
-            setData(res)
+            if (searchByIdInfo.isSearchedById) {
+                const res = await getMetadataById(searchByIdInfo.ID);
+                setData(res == null ? [] : [res])
+            } else {
+                const res = await generateListOfFullerenes(vertices, 30, (currentPage - 1) * 30, isIpr)
+                setData(res)
+            }
             setLoading(false)
         }
-
         fetchData()
 
-    }, [isIpr])
+    }, [isIpr, searchByIdInfo.isSearchedById, searchByIdInfo.ID])
 
     return (
         !loading ? (data != null && data?.length > 0 ?
@@ -95,6 +103,6 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
                     </PaginationContent>
                 </Pagination>
 
-            </> : <NoFullereneForGivenVerticesAndCriteria vertices={vertices} />) : <Spinner />
+            </> : (searchByIdInfo.isSearchedById ? <NoFullerenesForGivenID /> : <NoFullereneForGivenVerticesAndCriteria vertices={vertices} />)) : <Spinner />
     )
 }

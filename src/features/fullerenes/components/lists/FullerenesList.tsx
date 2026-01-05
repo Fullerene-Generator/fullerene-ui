@@ -11,6 +11,7 @@ import { getMetadataById } from "@/services/fullereneClient";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FilteringContext } from "@/features/filtering/FilteringContext";
 import { NoFullerenesForGivenCriteria } from "@/components/empty-states/NoFullerenesForGivenCriteria";
+import { SearchByIdContext } from "@/features/filtering/SearchByIdContext";
 
 interface FullereneListBrowserProps {
     fullerenesListInfo: FullerenesClusteredListInfo[];
@@ -30,6 +31,8 @@ export function FullerenesList({ fullerenesListInfo, setSelectedFullerene, selec
     const [ID, setID] = useState("");
     const [view, setView] = useState<ViewMode>("clustered");
     const [vertices, setVertices] = useState<number>(0)
+    const [isSearchedById, setIsSearchedById] = useState<boolean>(false)
+    const [searchedID, setSearchedID] = useState("")
 
     const isIpr = useContext(FilteringContext)
 
@@ -37,14 +40,16 @@ export function FullerenesList({ fullerenesListInfo, setSelectedFullerene, selec
         setView("clustered")
         setData([])
         setID("")
+        setIsSearchedById(false)
+        setSearchedID("")
     }
 
 
     async function handleSearchByID() {
-        console.log("Seraching by ID: {}", ID)
-        const metadata = await getMetadataById(ID);
         setChosenFullerensCount(1)
-        setData([metadata])
+        setIsSearchedById(true)
+        setSearchedID(ID)
+        console.log("Setting data: ", data)
         setView("single")
     }
 
@@ -66,7 +71,7 @@ export function FullerenesList({ fullerenesListInfo, setSelectedFullerene, selec
                         </div>
                         <Button onClick={handleSearchByID}>Search</Button>
                         <label htmlFor="IPRCheckbox">IPR: </label>
-                        <Checkbox id="IPRCheckbox" defaultChecked={isIpr} onCheckedChange={() => setIsIpr(!isIpr)}></Checkbox>
+                        <Checkbox id="IPRCheckbox" defaultChecked={isIpr} onCheckedChange={() => setIsIpr(!isIpr)} disabled={isSearchedById}></Checkbox>
                     </div>
                 </CardContent>
             </Card>
@@ -85,13 +90,18 @@ export function FullerenesList({ fullerenesListInfo, setSelectedFullerene, selec
                                 setVertices(n)
                             }} /> </div> : <NoFullerenesForGivenCriteria />) :
                     (
-                        <ExpandedFullerenesList data={data}
-                            setSelectedFullerene={setSelectedFullerene}
-                            setData={setData}
-                            fullerenesCount={chosenFullerenesCount}
-                            vertices={vertices}
-                            selectedFullerene={selectedFullerene}
-                        />
+                        <SearchByIdContext value={{
+                            ID: searchedID,
+                            isSearchedById: isSearchedById
+                        }}>
+                            <ExpandedFullerenesList data={data}
+                                setSelectedFullerene={setSelectedFullerene}
+                                setData={setData}
+                                fullerenesCount={chosenFullerenesCount}
+                                vertices={vertices}
+                                selectedFullerene={selectedFullerene}
+                            />
+                        </SearchByIdContext>
                     )
                 )
             }

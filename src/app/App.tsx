@@ -3,6 +3,7 @@ import { GenerationRequestCard } from "../features/fullerenes/components/generat
 import { useState, useEffect } from "react";
 import { FullereneResultsContainer } from "../features/fullerenes/components/FullereneResultsContainer";
 import { isAlgorithmRunning } from "@/services/fullereneClient";
+import { GenerationStateContext } from "@/features/generating/GenerationStateContext";
 function App() {
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -29,10 +30,12 @@ function App() {
   return (
     <div className="min-h-screen w-full bg-slate-50">
       <div className="container mx-auto p-6 max-w-7xl">
-        <title>Fullerene generator</title>
-        <Header />
-        <GenerationRequestCard isGenerating={isGenerating} setIsInitialGenerationStarted={setIsInitialGenerationStarted} />
-        <FullereneResultsContainer isInitialGenerationStarted={isInitialGenerationStarted} />
+        <GenerationStateContext value={{ isGenerating: isGenerating, isInitialGenerationStarted: isInitialGenerationStarted }}>
+          <title>Fullerene generator</title>
+          <Header />
+          <GenerationRequestCard setIsInitialGenerationStarted={setIsInitialGenerationStarted} />
+          <FullereneResultsContainer />
+        </GenerationStateContext>
       </div>
     </div>
   );

@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../../components/ui/card";
 import { Input } from "../../../../components/ui/input";
 import { generate, cancelGeneration } from "@/services/fullereneClient";
+import { GenerationStateContext } from "@/features/generating/GenerationStateContext";
 
 interface GenerateCardProps {
-    isGenerating: boolean;
     setIsInitialGenerationStarted: Function
 }
 
 
-export function GenerationRequestCard({ isGenerating, setIsInitialGenerationStarted }: GenerateCardProps) {
+export function GenerationRequestCard({ setIsInitialGenerationStarted }: GenerateCardProps) {
 
     const [maxVertices, setMaxVertices] = useState("");
+
+    const generationContext = useContext(GenerationStateContext)
 
     async function handleGenerate() {
 
@@ -49,13 +51,13 @@ export function GenerationRequestCard({ isGenerating, setIsInitialGenerationStar
                 <div className="flex gap-x-6 items-end">
                     <div className="flex-1 max-w-xs">
                         <label htmlFor="vertices" className="block text-sm font-medium mb-2">Maximum vertices:</label>
-                        <Input id="vertices" type="number" onChange={(e) => setMaxVertices(e.target.value)} disabled={isGenerating} />
+                        <Input id="vertices" type="number" onChange={(e) => setMaxVertices(e.target.value)} disabled={generationContext.isGenerating} />
                     </div>
-                    <Button onClick={handleGenerate} disabled={isGenerating} size="lg">
-                        {!isGenerating ? "Generate" : "Generating..."}
+                    <Button onClick={handleGenerate} disabled={generationContext.isGenerating} size="lg">
+                        {!generationContext.isGenerating ? "Generate" : "Generating..."}
                     </Button>
                     {
-                        isGenerating && <Button variant="destructive" size="lg" onClick={handleCancelGenerate}>Cancel</Button>
+                        generationContext.isGenerating && <Button variant="destructive" size="lg" onClick={handleCancelGenerate}>Cancel</Button>
                     }
                 </div>
             </CardContent>

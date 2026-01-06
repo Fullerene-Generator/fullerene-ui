@@ -7,14 +7,15 @@ import { ArrowLeft } from "lucide-react"
 import { ClusteredFullerenesList } from "./ClusteredFullerenesList";
 import { ExpandedFullerenesList } from "./ExpandedFullerenesList";
 import { Input } from "@/components/ui/input";
-import { getMetadataById } from "@/services/fullereneClient";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FilteringContext } from "@/features/filtering/FilteringContext";
 import { NoFullerenesForGivenCriteria } from "@/components/empty-states/NoFullerenesForGivenCriteria";
 import { SearchByIdContext } from "@/features/filtering/SearchByIdContext";
+import { generateClusteredFullerenesList } from "@/services/fullereneClient";
 
 interface FullereneListBrowserProps {
     fullerenesListInfo: FullerenesClusteredListInfo[];
+    setFullerenesListInfo: Function
     setSelectedFullerene: Function;
     selectedFullerene: string | null;
     setIsIpr: Function;
@@ -22,7 +23,7 @@ interface FullereneListBrowserProps {
 
 type ViewMode = "clustered" | "single";
 
-export function FullerenesList({ fullerenesListInfo, setSelectedFullerene, selectedFullerene, setIsIpr }: FullereneListBrowserProps) {
+export function FullerenesList({ fullerenesListInfo, setFullerenesListInfo, setSelectedFullerene, selectedFullerene, setIsIpr }: FullereneListBrowserProps) {
 
     const allFullerenesCount = fullerenesListInfo.length > 0 ? fullerenesListInfo.map(e => e.count).reduce((a, b) => a + b) : 0
 
@@ -64,20 +65,27 @@ export function FullerenesList({ fullerenesListInfo, setSelectedFullerene, selec
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex gap-x-4 items-end">
+                    <div className="flex gap-x-4 items-end pb-4">
                         <div className="flex-1 max-w-xs">
                             <label htmlFor="vertices" className="block text-sm font-medium mb-2">Provide ID:</label>
                             <Input id="vertices" onChange={(e) => { setID(e.target.value) }} value={ID} />
                         </div>
                         <Button onClick={handleSearchByID}>Search</Button>
+                    </div>
+                    <div className="flex gap-x-4 max-w-xs items-center">
                         <label htmlFor="IPRCheckbox">IPR: </label>
-                        <Checkbox id="IPRCheckbox" defaultChecked={isIpr} onCheckedChange={() => setIsIpr(!isIpr)} disabled={isSearchedById}></Checkbox>
+                        <Checkbox id="IPRCheckbox" defaultChecked={isIpr} onCheckedChange={async () => {
+                            const response = await generateClusteredFullerenesList(!isIpr);
+                            setFullerenesListInfo(response)
+                            setIsIpr(!isIpr)
+
+                        }} disabled={isSearchedById}></Checkbox>
                     </div>
                 </CardContent>
             </Card>
-            <Button variant="outline" size="icon" aria-label="Submit" onClick={clearData}>
+            {view === "single" && <Button variant="outline" size="icon" aria-label="Submit" onClick={clearData}>
                 <ArrowLeft />
-            </Button>
+            </Button>}
 
             {
                 (view === "clustered" ?

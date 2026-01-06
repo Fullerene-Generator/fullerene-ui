@@ -2,7 +2,7 @@
 import type { FullereneInfo } from "../../types/FullereneInfo";
 import { FullerenesListItem } from "./FullerenesListItem";
 import { Pagination, PaginationPrevious, PaginationItem, PaginationContent, PaginationLink, PaginationNext } from "@/components/ui/pagination";
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { generateListOfFullerenes } from "@/services/fullereneClient";
 import { Spinner } from "@/components/ui/spinner";
 import { FilteringContext } from "@/features/filtering/FilteringContext";
@@ -24,6 +24,8 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
 
     const [currentPage, setCurrentPage] = useState(1)
     const [loading, setLoading] = useState(false)
+
+    const listRef = useRef<HTMLDivElement>(null);
 
     const maxPage = Math.ceil(fullerenesCount / 30)
 
@@ -50,7 +52,7 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
     return (
         !loading ? (data != null && data?.length > 0 ?
             <>
-                <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
+                <div ref={listRef} className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                     <FullerenesListItem data={data} setSelectedFullerene={setSelectedFullerene} selectedFullerene={selectedFullerene} />
                 </div>
                 <Pagination>
@@ -62,6 +64,7 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
                                         const res = await generateListOfFullerenes(vertices, 30, (currentPage - 2) * 30, isIpr)
                                         setData(res)
                                         setCurrentPage(page => page - 1)
+                                        listRef.current?.scrollTo({ top: 0 })
                                     }
                                 }}
                             />
@@ -71,6 +74,7 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
                                 const res = await generateListOfFullerenes(vertices, 30, (currentPage - 2) * 30, isIpr)
                                 setData(res)
                                 setCurrentPage(page => page - 1)
+                                listRef.current?.scrollTo({ top: 0 })
                             }}>
                                 {currentPage - 1}
                             </PaginationLink>
@@ -85,6 +89,7 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
                                 const res = await generateListOfFullerenes(vertices, 30, currentPage * 30, isIpr)
                                 setData(res)
                                 setCurrentPage(page => page + 1)
+                                listRef.current?.scrollTo({ top: 0 })
                             }}>
                                 {currentPage + 1}
                             </PaginationLink>
@@ -96,6 +101,7 @@ export function ExpandedFullerenesList({ data, setSelectedFullerene, fullerenesC
                                         const res = await generateListOfFullerenes(vertices, 30, currentPage * 30, isIpr)
                                         setData(res)
                                         setCurrentPage(page => page + 1)
+                                        listRef.current?.scrollTo({ top: 0 })
                                     }
                                 }}
                             />

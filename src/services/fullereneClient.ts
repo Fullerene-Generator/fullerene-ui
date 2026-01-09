@@ -97,9 +97,10 @@ interface FullereneStructureDto {
     parent_id: string
 }
 
-export async function getFullereneFor3DVisualization(id: string): Promise<FullereneStructure> {
+export async function getFullereneFor3DVisualization(id: string, force: number): Promise<FullereneStructure> {
 
-    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/3D/${id}`);
+    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/3D/${force}/${id}`);
+    console.log("fetching for force: ", force)
     const fullerene: FullereneStructure = {
         id: response.data.id,
         vertices: response.data.n,
@@ -110,8 +111,8 @@ export async function getFullereneFor3DVisualization(id: string): Promise<Fuller
     return fullerene
 }
 
-export async function getFullereneFor2DVisualization(id: string): Promise<FullereneStructure> {
-    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/2D/${id}`);
+export async function getFullereneFor2DVisualization(id: string, force: number): Promise<FullereneStructure> {
+    const response = await axios.get<FullereneStructureDto>(`http://localhost:8000/fullerenes/2D/${force}/${id}`);
 
     const fullerene: FullereneStructure = {
         id: response.data.id,

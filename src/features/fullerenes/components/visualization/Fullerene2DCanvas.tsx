@@ -4,11 +4,11 @@ import type { FullereneStructure } from "@/features/fullerenes/types/FullereneSt
 import { useCallback } from "react";
 
 interface FullereneVisualizerProps {
-    fullerene: FullereneStructure;
+    fullereneStructure: FullereneStructure;
     layout: string;
 }
 
-export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProps) {
+export function Fullerene2DCanvas({ fullereneStructure, layout }: FullereneVisualizerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const cyRef = useRef<cytoscape.Core | null>(null);
 
@@ -31,7 +31,7 @@ export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProp
     }, []);
 
     const getLayoutOptions = (layoutName: string) => {
-        if (layoutName === "preset") {
+        if (layoutName === "preset" || layoutName === "force") {
             return { name: "preset", fit: true };
         }
         else {
@@ -47,7 +47,7 @@ export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProp
         }
         let i = -1;
         const elements = [
-            ...fullerene.coords.map((coords) => {
+            ...fullereneStructure.coords.map((coords) => {
                 i++;
                 return ({
                     data: {
@@ -57,7 +57,7 @@ export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProp
                 })
             }),
 
-            ...fullerene.edges.map((edge, index) => ({
+            ...fullereneStructure.edges.map((edge, index) => ({
                 data: {
                     id: `e${index}`,
                     source: edge[0],
@@ -126,7 +126,7 @@ export function Fullerene2DCanvas({ fullerene, layout }: FullereneVisualizerProp
                 cyRef.current.destroy();
             }
         };
-    }, [fullerene, layout]);
+    }, [fullereneStructure, layout]);
 
     return (
         <div className="w-full h-full border rounded-lg bg-white">

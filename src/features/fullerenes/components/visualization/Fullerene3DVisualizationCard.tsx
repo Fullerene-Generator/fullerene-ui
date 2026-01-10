@@ -18,6 +18,7 @@ export function Fullerene3DVisualizationCard({ visualizedFullerene }: Fullerene3
 
     useEffect(() => {
         const fetch = async () => {
+            setLayout("preset")
             const structure = await getFullereneFor3DVisualization(visualizedFullerene, 0)
             setFullereneStructure(structure)
         }

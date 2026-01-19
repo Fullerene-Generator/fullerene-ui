@@ -29,7 +29,7 @@ export function Fullerene3DVisualizationCard({ visualizedFullerene }: Fullerene3
 
         fullereneStructure == null ? <Spinner /> : <Card className="flex flex-col h-full">
             <CardHeader>
-                <CardTitle>{fullereneStructure.vertices}</CardTitle>
+                <CardTitle>{fullereneStructure.id}</CardTitle>
                 <CardDescription>
                     Interactive 3D molecular structure visualization
                 </CardDescription>

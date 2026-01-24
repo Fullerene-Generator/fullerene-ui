@@ -24,9 +24,10 @@ interface FullerenesClusteredListInfoDto {
 
 export async function generateClusteredFullerenesList(isIpr: boolean): Promise<FullerenesClusteredListInfo[]> {
 
+
     const response = await axios.get<{ items: FullerenesClusteredListInfoDto[] }>("http://localhost:8000/counts", {
         params: {
-            is_ipr: isIpr
+            is_ipr: isIpr ? isIpr : undefined
         }
     });
 
